@@ -1,0 +1,30 @@
+#book
+  input type="text" v-model="isbn" @keyup.enter="fire()"
+
+  div v-for="book in books"
+    div
+      img src="{{book.medium_image_url}}"
+      span
+        | {{book.title}}
+
+
+- content_for :js
+  javascript:
+    new Vue({
+      el: "#book",
+      data: {
+        isbn: "",
+        books: []
+      },
+      methods: {
+        fire: function() {
+          this.$http.post("/book", {isbn: this.isbn}, {emulateJSON: true}).then(function(response) {
+            this.books.push(response.data);
+          }, function(response) {
+            // error
+            console.log(response.data);
+          });
+          this.isbn = "";
+        }
+      }
+    });
