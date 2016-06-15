@@ -18,4 +18,5 @@ class Book
   field :medium_image_url, type: String
   field :large_image_url, type: String
 
+  has_one :user
 end
