@@ -1,5 +1,5 @@
 #book
-  input type="text" v-model="isbn" @keyup.enter="fire()"
+  input type="text" v-model="isbn" @keyup.enter="fire()" v-focus=""
 
   div v-for="book in books"
     div
@@ -10,6 +10,12 @@
 
 - content_for :js
   javascript:
+    Vue.directive('focus', {
+      bind: function () {
+        this.el.focus();
+      }
+    });
+
     new Vue({
       el: "#book",
       data: {
