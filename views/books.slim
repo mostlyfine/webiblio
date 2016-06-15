@@ -1,0 +1,8 @@
+#books
+  h3 蔵書一覧
+  - for book in @books
+    ul
+      li
+        img src = book.medium_image_url
+        - if book.user
+          span 貸出中
