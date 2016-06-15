@@ -27,10 +27,7 @@ class Rakuten
   end
 
   def search(code)
-    result = book(code)
-    result = cd(code) if result["hits"] == 0
-    result = dvd(code) if result["hits"] == 0
-    result
+    request api(:Total, {isbnjan: code})
   end
 
   def book(isbn)
