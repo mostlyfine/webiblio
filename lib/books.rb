@@ -17,14 +17,15 @@ class Book
   has_one :user
 
   def self.create_by_amazon(item)
+    image = item.get_elements("ImageSets/ImageSet").last
     Book.find_or_create_by(
       title: item.get("ItemAttributes/Title"),
       author: item.get("ItemAttributes/Author"),
       publisher: item.get("ItemAttributes/Publisher"),
-      isbn: item.get("ItemAttributes/ISBN"),
-      small_image_url: item.get("ImageSets/ImageSet/TinyImage/URL"),
-      medium_image_url: item.get("ImageSets/ImageSet/MediumImage/URL"),
-      large_image_url: item.get("ImageSets/ImageSet/LargeImage/URL"),
+      isbn: item.get("ItemAttributes/EAN") || item.get("ItemAttributes/ISBN"),
+      small_image_url: image.get("SmallImage/URL"),
+      medium_image_url: image.get("MediumImage/URL"),
+      large_image_url: image.get("LargeImage/URL"),
     )
   end
 
