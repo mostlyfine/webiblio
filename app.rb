@@ -49,7 +49,7 @@ module Webiblio
     end
 
     post "/login" do
-      user = User.where(employee_number: params[:number].to_i).first or redirect "/login"
+      user = User.where(employee_number: params[:number].chop.to_i).first or redirect "/login"
       session[:uid] = user.employee_number
       path = session[:path] || "/"
       session[:path] = nil
