@@ -22,7 +22,7 @@ module Webiblio
         config.load!(File.expand_path 'mongoid.yml')
       end
 
-      Dir['lib/*.rb'].each {|lib| load lib }
+      Dir['lib/*.rb'].each {|lib| require_relative lib }
     end
 
     helpers do
