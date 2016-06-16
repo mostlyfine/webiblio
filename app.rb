@@ -4,7 +4,7 @@ Bundler.require
 module Webiblio
   class Application < Sinatra::Application
     enable :sessions, :logging
-    set :session_secret, ENV['RAKUTEN_APPLICATION_ID']
+    set :session_secret, ENV['AWS_SECRET_KEY']
     register Sinatra::Contrib
 
     configure do
