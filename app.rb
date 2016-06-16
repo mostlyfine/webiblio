@@ -18,10 +18,6 @@ module Webiblio
     end
 
     helpers do
-      def rakuten
-        @rakuten ||= Rakuten.new(ENV['RAKUTEN_APPLICATION_ID'])
-      end
-
       def authenticate!
         unless session[:uid]
           session[:path] = request.path_info
@@ -45,7 +41,7 @@ module Webiblio
     end
 
     post "/login" do
-      user = User.where(employee_number: params[:number]).first or redirect "/login"
+      user = User.where(employee_number: params[:number].to_i).first or redirect "/login"
       session[:uid] = user.employee_number
       path = session[:path] || "/"
       session[:path] = nil
@@ -69,21 +65,8 @@ module Webiblio
     post "/book" do
       book = Book.where(isbn: params[:isbn]).first
       unless book
-        rakuten.search(params[:isbn])[:Items].each do |item|
-          book ||= Book.find_or_create_by(
-            title: item[:title],
-            sub_title: item[:subTitle],
-            series: item[:seriesName],
-            description: item[:contents],
-            author: item[:author],
-            publisher: item[:publisherName],
-            format: item[:size],
-            isbn: item[:isbn],
-            caption: item[:itemCaption],
-            small_image_url: item[:smallImageUrl],
-            medium_image_url: item[:mediumImageUrl],
-            large_image_url: item[:largeImageUrl]
-          )
+        AmazonAPI.search(params[:isbn]).items.each do |item|
+          book ||= Book.create_by_amazon(item)
         end
       end
       json book
@@ -94,10 +77,10 @@ module Webiblio
     end
 
     post "/loanout" do
-      book = Book.where(isbn: params[:isbn]).first
-      halt 404 if !book or book.user
-      book.update_attributes!(user: @user)
-      json book.as_json
+      book = Book.where(isbn: params[:isbn], loaned_at: nil).first
+      halt 404 unless book
+      book.update_attributes!(user: @user, loaned_at: Time.now)
+      json book
     end
 
     get "/putback" do
@@ -105,9 +88,9 @@ module Webiblio
     end
 
     post "/putback" do
-      book = Book.where(isbn: params[:isbn]).first
-      halt 404 if !book or !book.user
-      book.update_attributes!(user: nil)
+      book = Book.where(:isbn => params[:isbn], :loaned_at.ne => nil).first
+      halt 404 unless book
+      book.update_attributes!(user: nil, loaned_at: nil)
       json book
     end
   end

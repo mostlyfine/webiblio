@@ -4,6 +4,7 @@ gem "sinatra"
 gem "sinatra-contrib"
 gem "mongoid"
 gem "slim"
+gem "amazon-ecs"
 
 group :development do
   gem "pry"
