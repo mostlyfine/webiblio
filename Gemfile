@@ -5,6 +5,7 @@ gem "sinatra-contrib"
 gem "mongoid"
 gem "slim"
 gem "amazon-ecs"
+gem "sinatra-flash", require: "sinatra/flash"
 
 group :development do
   gem "pry"

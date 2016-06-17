@@ -6,6 +6,7 @@ module Webiblio
     enable :sessions, :logging
     set :session_secret, ENV['AWS_SECRET_KEY']
     register Sinatra::Contrib
+    register Sinatra::Flash
 
     configure do
       Amazon::Ecs.options = {
@@ -49,7 +50,11 @@ module Webiblio
     end
 
     post "/login" do
-      user = User.where(employee_number: params[:number].chop.to_i).first or redirect "/login"
+      user = User.where(employee_number: params[:number].chop.to_i).first
+      unless user
+        flash[:notice] = "認証できませんでした。もう一度スキャンして下さい。"
+        redirect "/login"
+      end
       session[:uid] = user.employee_number
       path = session[:path] || "/"
       session[:path] = nil
