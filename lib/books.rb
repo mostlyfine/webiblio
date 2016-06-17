@@ -8,6 +8,7 @@ class Book
   field :title, type: String
   field :author, type: String
   field :publisher, type: String
+  field :asin, type: String
   field :isbn, type: String
   field :small_image_url, type: String
   field :medium_image_url, type: String
@@ -22,6 +23,7 @@ class Book
       title: item.get("ItemAttributes/Title"),
       author: item.get("ItemAttributes/Author"),
       publisher: item.get("ItemAttributes/Publisher"),
+      asin: item.get("ASIN"),
       isbn: item.get("ItemAttributes/EAN") || item.get("ItemAttributes/ISBN"),
       small_image_url: image.get("SmallImage/URL"),
       medium_image_url: image.get("MediumImage/URL"),
