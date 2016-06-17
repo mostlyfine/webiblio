@@ -1,0 +1,31 @@
+.spacing {
+  margin: 15px;
+}
+.books {
+  padding: 5px;
+}
+
+.btn-menu {
+  height: 200px;
+  font-size: 48px;
+  margin: 10px;
+}
+.btn-a {
+  background: #008ed4;
+  color: #fff;
+}
+
+.btn-b {
+  background: #f57b00;
+  color: #ffca95;
+}
+
+.btn-c {
+  background: #ddaeff;
+  color: #8156a7;
+}
+
+.btn-d {
+  background: #f5ab9e;
+  color: #8c3a2b;
+}

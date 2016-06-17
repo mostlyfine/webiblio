@@ -67,7 +67,7 @@ module Webiblio
     end
 
     get "/books" do
-      @books = Book.all
+      @books = Book.all.asc(:title)
       slim :books
     end
 
@@ -82,6 +82,7 @@ module Webiblio
           book ||= Book.create_by_amazon(item)
         end
       end
+      book ||= {message: "書籍が見つかりませんでした。"}
       json book
     end
 
@@ -91,9 +92,12 @@ module Webiblio
 
     post "/loanout" do
       book = Book.where(isbn: params[:isbn], loaned_at: nil).first
-      halt 404 unless book
-      book.update_attributes!(user: @user, loaned_at: Time.now)
-      json book
+      if book
+        book.update_attributes!(user: @user, loaned_at: Time.now)
+        json book
+      else
+        json({message: "すでに貸出されているか、登録されていない書籍です。"})
+      end
     end
 
     get "/putback" do
@@ -102,9 +106,12 @@ module Webiblio
 
     post "/putback" do
       book = Book.where(:isbn => params[:isbn], :loaned_at.ne => nil).first
-      halt 404 unless book
-      book.update_attributes!(user: nil, loaned_at: nil)
-      json book
+      if book
+        book.update_attributes!(user: nil, loaned_at: nil)
+        json book
+      else
+        json({message: "すでに返却されているか、登録されていない書籍です。"})
+      end
     end
   end
 end

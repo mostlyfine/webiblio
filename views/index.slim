@@ -1,12 +1,12 @@
-h3= session[:uid]
-
-ul
-  li
-    a href="/books" 蔵書一覧
-  li
-    a href="/book" 蔵書登録
-  li
-    a href="/loanout" 貸出
-  li
-    a href="/putback" 返却
-
+.row
+  .col-md-8.col-md-offset-2
+    .row
+      .col-sm-6
+        a.btn.btn-menu.btn-a.btn-lg.btn-block href="/loanout" 貸出
+      .col-sm-6
+        a.btn.btn-menu.btn-b.btn-lg.btn-block href="/putback" 返却
+    .row
+      .col-sm-6
+        a.btn.btn-menu.btn-c.btn-lg.btn-block href="/book" 蔵書登録
+      .col-sm-6
+        a.btn.btn-menu.btn-d.btn-lg.btn-block href="/books" 蔵書一覧

@@ -1,34 +1,41 @@
-#book
-  input type="text" v-model="isbn" @keyup.enter="fire()" v-focus=""
+#book.row
+  .col-md-8.col-md-offset-2
+    .row.spacing
+      h2 蔵書登録
+      .alert.alert-danger v-if="notice"
+        | {{notice}}
 
-  div v-for="book in books"
-    div
-      img src="{{book.medium_image_url}}"
-      span
-        | {{book.title}}
+    .row.spacing
+      input.center-block autofocus="" type="text" v-model="isbn" @keyup.enter="fire"
+
+    .row.spacing
+      .col-sm-2.book v-for="book in books"
+        img src="{{book.medium_image_url}}"
+        h5 "{{book.title}}"
+
+    .row.spacing
+      a.btn.btn-primary.btn-lg.btn-block href="/" 戻る
 
 
 - content_for :js
   javascript:
-    Vue.directive('focus', {
-      bind: function () {
-        this.el.focus();
-      }
-    });
-
     new Vue({
       el: "#book",
       data: {
         isbn: "",
-        books: []
+        books: [],
+        notice: ""
       },
       methods: {
         fire: function() {
           this.$http.post("/book", {isbn: this.isbn}, {emulateJSON: true}).then(function(response) {
-            this.books.push(response.data);
+            if(response.data.message) {
+              this.notice = response.data.message;
+            } else {
+              this.books.push(response.data);
+            }
           }, function(response) {
-            // error
-            console.log(response.data);
+            console.log(response);
           });
           this.isbn = "";
         }

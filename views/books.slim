@@ -1,8 +1,17 @@
-#books
-  h3 蔵書一覧
-  - for book in @books
-    ul
-      li
-        img src = book.medium_image_url
-        - if book.user
-          span 貸出中
+.row
+  .col-md-8.col-md-offset-2
+    .row.spacing
+          a.btn.btn-primary.btn-lg.btn-block href="/" 戻る
+
+    .row.spacing
+      - @books.each_with_index do |book, i|
+        - if i % 6 == 0
+          .row
+        .col-sm-2.books
+          img src = book.medium_image_url
+          - if book.loaned_at
+            span.label.label-success 貸出中
+          h5= book.title
+
+    .row.spacing
+      a.btn.btn-primary.btn-lg.btn-block href="/" 戻る
