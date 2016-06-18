@@ -1,14 +1,12 @@
 require "mongoid"
 
-class User
+class Slip
   include Mongoid::Document
   include Mongoid::Timestamps::Updated
   include Mongoid::Timestamps::Created
 
-  field :name, type: String
-  field :mail, type: String
+  field :isbn, type: String
   field :employee_number, type: String
-  field :icon, type: String
-
+  field :checkouted_at, type: DateTime
+  field :returned_at, type: DateTime
 end
-

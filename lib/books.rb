@@ -13,9 +13,10 @@ class Book
   field :small_image_url, type: String
   field :medium_image_url, type: String
   field :large_image_url, type: String
-  field :loaned_at, type: DateTime
 
-  has_one :user
+  def checkout?
+    !! Slip.where(isbn: self.isbn, returned_at: nil).first
+  end
 
   def self.create_by_amazon(item)
     image = item.get_elements("ImageSets/ImageSet").last

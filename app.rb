@@ -89,12 +89,13 @@ module Webiblio
     end
 
     post "/loanout" do
-      book = Book.where(isbn: params[:isbn], loaned_at: nil).first
-      if book
-        book.update_attributes!(user: @user, loaned_at: Time.now)
-        json book
+      slip = Slip.where(isbn: params[:isbn], returned_at: nil).first
+      if slip
+        json({message: "すでに貸出されています。"})
       else
-        json({message: "すでに貸出されているか、登録されていない書籍です。"})
+        Slip.create(isbn: params[:isbn], employee_number: session[:uid],  checkouted_at: Time.now)
+        book = Book.where(isbn: params[:isbn]).first
+        json book
       end
     end
 
@@ -103,9 +104,10 @@ module Webiblio
     end
 
     post "/putback" do
-      book = Book.where(:isbn => params[:isbn], :loaned_at.ne => nil).first
-      if book
-        book.update_attributes!(user: nil, loaned_at: nil)
+      slip = Slip.where(isbn: params[:isbn], employee_number: session[:uid], returned_at: nil).first
+      if slip
+        slip.update_attributes!(returned_at: Time.now)
+        book = Book.where(isbn: params[:isbn]).first
         json book
       else
         json({message: "すでに返却されているか、登録されていない書籍です。"})
