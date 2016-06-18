@@ -8,7 +8,9 @@ class User
   field :name, type: String
   field :mail, type: String
   field :employee_number, type: String
-  field :icon, type: String
 
+  def self.auth(num)
+    self.in(employee_number: [num, num.chop.to_i]).first
+  end
 end
 

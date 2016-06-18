@@ -48,7 +48,7 @@ module Webiblio
     end
 
     post "/login" do
-      user = User.where(employee_number: params[:number].chop.to_i).first
+      user = User.auth(params[:employee_number])
       unless user
         flash[:notice] = "認証できませんでした。もう一度スキャンして下さい。"
         redirect "/login"
