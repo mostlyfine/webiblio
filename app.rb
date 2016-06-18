@@ -19,6 +19,7 @@ module Webiblio
       }
 
       Mongoid.logger.level = production? ? Logger::WARN : Logger::DEBUG
+      Mongo::Logger.logger.level = production? ? Logger::WARN : Logger::DEBUG
       Mongoid.load!(File.expand_path('mongoid.yml'))
 
       Dir['lib/*.rb'].each {|lib| require_relative lib }

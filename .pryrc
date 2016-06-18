@@ -10,7 +10,8 @@ Amazon::Ecs.options = {
   country: "jp",
 }
 
-Mongoid.logger.level = Logger::WARN
+Mongoid.logger.level = Logger::DEBUG
+Mongo::Logger.logger.level = Logger::DEBUG
 Mongoid.load!(File.expand_path('mongoid.yml'), :development)
 
 Dir['lib/*.rb'].each {|lib| require_relative lib }
