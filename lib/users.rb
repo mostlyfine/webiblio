@@ -12,5 +12,9 @@ class User
   def self.auth(num)
     self.in(employee_number: [num, num.chop.to_i]).first
   end
+
+  def icon
+    self.mail.gsub(/@.+$/, "")
+  end
 end
 
