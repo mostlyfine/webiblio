@@ -1,4 +1,4 @@
-#loanout.row
+#checkout.row
   .col-md-8.col-md-offset-2
     .row.spacing
       h2 貸出
@@ -19,7 +19,7 @@
 - content_for :js
   javascript:
     new Vue({
-      el: "#loanout",
+      el: "#checkout",
       data: {
         isbn: "",
         books: [],
@@ -27,7 +27,7 @@
       },
       methods: {
         fire: function() {
-          this.$http.post("/loanout", {isbn: this.isbn}, {emulateJSON: true}).then(function(response) {
+          this.$http.post("/checkout", {isbn: this.isbn}, {emulateJSON: true}).then(function(response) {
             if(response.data.message) {
               this.notice = response.data.message;
             } else {

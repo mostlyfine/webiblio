@@ -9,7 +9,7 @@
           .row
         .col-sm-2.books
           img src = book.medium_image_url
-          - if book.loaned_at
+          - if book.checkout?
             span.label.label-success 貸出中
           h5= book.title
 

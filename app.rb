@@ -34,7 +34,7 @@ module Webiblio
       end
     end
 
-    before %r{^/(loanout|putback)} do
+    before %r{^/(checkout|return)} do
       authenticate!
     end
 
@@ -84,11 +84,11 @@ module Webiblio
       json book
     end
 
-    get "/loanout" do
-      slim :loanout
+    get "/checkout" do
+      slim :checkout
     end
 
-    post "/loanout" do
+    post "/checkout" do
       slip = Slip.where(isbn: params[:isbn], returned_at: nil).first
       if slip
         json({message: "すでに貸出されています。"})
@@ -99,11 +99,11 @@ module Webiblio
       end
     end
 
-    get "/putback" do
-      slim :putback
+    get "/return" do
+      slim :return
     end
 
-    post "/putback" do
+    post "/return" do
       slip = Slip.where(isbn: params[:isbn], employee_number: session[:uid], returned_at: nil).first
       if slip
         slip.update_attributes!(returned_at: Time.now)
