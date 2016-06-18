@@ -2,7 +2,7 @@ source "https://rubygems.org"
 
 gem "sinatra"
 gem "sinatra-contrib"
-gem "mongoid"
+gem "mongoid", "~> 5.1.0"
 gem "slim"
 gem "amazon-ecs"
 gem "sinatra-flash", require: "sinatra/flash"

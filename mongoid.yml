@@ -1,10 +1,10 @@
 development:
-  sessions:
+  clients:
     default:
       database: webiblio_development
       hosts:
         - localhost:27017
 production:
-  sessions:
+  clients:
     default:
       uri: <% ENV['MONGODB_URI'] || ENV['MONGOHQ_URL'] || ENV['MONGOLAB_URI'] %>
