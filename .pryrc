@@ -10,10 +10,8 @@ Amazon::Ecs.options = {
   country: "jp",
 }
 
-Mongoid.logger.level = production? ? Logger::WARN : Logger::DEBUG
-Mongoid.configure do |config|
-  config.load!(File.expand_path 'mongoid.yml')
-end
+Mongoid.logger.level = Logger::WARN
+Mongoid.load!(File.expand_path('mongoid.yml'), :development)
 
-Dir['lib/*.rb'].each {|lib| load lib }
+Dir['lib/*.rb'].each {|lib| require_relative lib }
 
