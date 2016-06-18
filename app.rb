@@ -110,7 +110,7 @@ module Webiblio
         book = Book.where(isbn: params[:isbn]).first
         json book
       else
-        json({message: "すでに返却されているか、登録されていない書籍です。"})
+        json({message: "すでに返却されています。"})
       end
     end
   end
